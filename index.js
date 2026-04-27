@@ -9,6 +9,8 @@ app.get("/commodity-price", async (req, res) => {
   const { symbols } = req.query;
   const apiKey = req.headers["api-key"];
 
+  console.log("Received request - symbols:", symbols, "apiKey present:", !!apiKey);
+
   if (!symbols || !apiKey) {
     return res.status(400).json({ error: "Missing symbols or API-Key" });
   }
@@ -17,7 +19,7 @@ app.get("/commodity-price", async (req, res) => {
     const response = await axios.get(
       "https://api.apifreaks.com/v1.0/commodity/rates/latest",
       {
-        params: { apikey: apiKey, symbols, updates: "10m" },
+        params: { apiKey: apiKey, symbols, updates: "10m" },
       }
     );
     res.json(response.data);
