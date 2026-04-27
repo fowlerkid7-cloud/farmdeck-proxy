@@ -5,8 +5,6 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 
-// Proxy for APIFreaks commodity prices
-// Symbols: CORN, ZW (wheat), ZS (soybeans), WTIOIL (crude), NG (natural gas)
 app.get("/commodity-price", async (req, res) => {
   const { symbols } = req.query;
   const apiKey = req.headers["api-key"];
@@ -19,8 +17,7 @@ app.get("/commodity-price", async (req, res) => {
     const response = await axios.get(
       "https://api.apifreaks.com/v1.0/commodity/rates/latest",
       {
-        params: { symbols, updates: "10m" },
-        headers: { "apikey": apiKey },
+        params: { apikey: apiKey, symbols, updates: "10m" },
       }
     );
     res.json(response.data);
